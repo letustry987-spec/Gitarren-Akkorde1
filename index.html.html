@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#0e0c0a">
+<title>Gitarren Akkorde</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:monospace;background:#0e0c0a;color:#f0e8d8;min-height:100vh;}
+header{padding:1.3rem 1rem .7rem;text-align:center;border-bottom:1px solid #3a322a;}
+header h1{font-size:1.8rem;font-weight:900;font-family:Georgia,serif;}
+header h1 span{color:#d4a843;}
+header p{margin-top:3px;color:#7a6f60;font-size:10px;letter-spacing:.15em;text-transform:uppercase;}
+.wrap{max-width:640px;margin:1rem auto 0;padding:0 1rem;}
+.lbl{font-size:10px;color:#8a6a22;letter-spacing:.15em;text-transform:uppercase;margin-bottom:5px;display:block;}
+.row{display:flex;gap:7px;}
+input[type=text]{flex:1;background:#1a1714;border:1px solid #3a322a;border-radius:6px;color:#f0e8d8;font-family:monospace;font-size:15px;padding:10px 13px;outline:none;}
+input[type=text]:focus{border-color:#8a6a22;}
+.btn{background:#d4a843;color:#0e0c0a;border:none;border-radius:6px;font-family:monospace;font-weight:700;font-size:14px;padding:10px 18px;cursor:pointer;touch-action:manipulation;}
+.btn:active{background:#c49a35;}
+.inspire-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.shuf{background:none;border:1px solid #3a322a;border-radius:3px;color:#7a6f60;font-family:monospace;font-size:11px;padding:4px 10px;cursor:pointer;}
+.shuf:active{color:#d4a843;}
+.igrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:5px;}
+.icard{background:#1a1714;border:1px solid #3a322a;border-radius:6px;padding:8px 11px;cursor:pointer;user-select:none;}
+.icard:active{border-color:#8a6a22;}
+.ic-t{font-size:13px;color:#f0e8d8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ic-m{display:flex;align-items:center;gap:5px;margin-top:3px;}
+.ic-a{font-size:10px;color:#7a6f60;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.gbadge{font-size:9px;padding:1px 4px;border-radius:2px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;}
+.main{max-width:940px;margin:0 auto;padding:0 1rem 5rem;}
+.intro{text-align:center;padding:2.5rem 1rem;color:#7a6f60;}
+.intro .icon{font-size:40px;opacity:.3;margin-bottom:8px;}
+.intro p{font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:2.2;}
+.err{background:rgba(192,57,43,.12);border:1px solid rgba(192,57,43,.3);border-radius:6px;color:#e8a89e;font-size:12px;padding:12px 15px;margin:1rem 0;line-height:1.7;}
+.loading{text-align:center;padding:2rem;color:#7a6f60;font-size:13px;}
+.song-hdr{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:.9rem;border-bottom:1px solid #3a322a;margin-bottom:1rem;margin-top:1.2rem;}
+.song-title{font-family:Georgia,serif;font-size:1.3rem;font-weight:700;}
+.song-ar{font-size:11px;color:#7a6f60;margin-left:7px;}
+.yt-link{display:inline-flex;align-items:center;gap:5px;background:rgba(255,50,50,.1);border:1px solid rgba(255,80,80,.28);border-radius:5px;padding:7px 12px;font-size:12px;color:#ff7070;text-decoration:none;}
+.capo{display:inline-flex;gap:5px;background:rgba(91,155,212,.1);border:1px solid rgba(91,155,212,.25);border-radius:5px;padding:5px 11px;font-size:12px;color:#8ec4e8;margin-bottom:12px;}
+.panel{background:#1a1714;border:1px solid #3a322a;border-radius:10px;padding:1rem 1.1rem;margin-bottom:13px;position:relative;overflow:hidden;}
+.ptop{position:absolute;top:0;left:0;right:0;height:2px;}
+.plbl{font-size:10px;color:#8a6a22;letter-spacing:.15em;text-transform:uppercase;margin-bottom:9px;}
+.pinfo{font-size:11px;color:#7a6f60;float:right;margin-top:-20px;}
+.beat-grid{display:flex;gap:5px;flex-wrap:wrap;align-items:flex-end;clear:both;}
+.bg{display:flex;gap:3px;align-items:flex-end;padding:7px 8px;background:rgba(255,255,255,.03);border:1px solid #3a322a;border-radius:6px;position:relative;margin-top:11px;}
+.bgn{position:absolute;top:-9px;left:50%;transform:translateX(-50%);font-size:9px;color:#7a6f60;background:#1a1714;padding:0 3px;}
+.beat{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:30px;}
+.ba{width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .1s;}
+.bD{background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.35);color:#d4a843;}
+.bDA{background:rgba(212,168,67,.25);border:1px solid #d4a843;color:#d4a843;}
+.bU{background:rgba(91,155,212,.12);border:1px solid rgba(91,155,212,.3);color:#5b9bd4;}
+.bM{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);color:#383028;}
+.active{transform:scale(1.22)!important;filter:brightness(1.7);}
+.active.bD,.active.bDA{box-shadow:0 0 10px rgba(212,168,67,.6);}
+.active.bU{box-shadow:0 0 10px rgba(91,155,212,.6);}
+.bl{font-size:9px;color:#7a6f60;}
+.sctrl{display:flex;align-items:center;gap:10px;margin-top:11px;flex-wrap:wrap;}
+.pbtn{background:#d4a843;color:#0e0c0a;border:none;border-radius:50%;width:38px;height:38px;font-size:14px;cursor:pointer;flex-shrink:0;touch-action:manipulation;display:flex;align-items:center;justify-content:center;}
+.pbtn:active{background:#c49a35;}
+input[type=range]{accent-color:#d4a843;width:100px;cursor:pointer;}
+.bpmlbl{font-size:12px;color:#d4a843;min-width:50px;}
+.legend{display:flex;gap:8px;margin-left:auto;}
+.li{display:flex;align-items:center;gap:3px;font-size:10px;color:#7a6f60;}
+.ld{width:9px;height:9px;border-radius:2px;}
+.sec-list{display:flex;flex-direction:column;gap:5px;}
+.sec{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;background:rgba(255,255,255,.03);border:1px solid #3a322a;border-radius:5px;}
+.stype{font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:2px 5px;border-radius:3px;white-space:nowrap;flex-shrink:0;margin-top:1px;}
+.schords{display:flex;flex-wrap:wrap;gap:3px;align-items:center;}
+.cpill{background:rgba(255,255,255,.06);border:1px solid #3a322a;border-radius:3px;font-size:12px;padding:2px 6px;}
+.stm{font-size:10px;color:#7a6f60;}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;}
+.ccard{background:#1a1714;border:1px solid #3a322a;border-radius:8px;padding:10px 7px;display:flex;flex-direction:column;align-items:center;gap:5px;animation:fu .3s ease both;}
+.cname{font-family:Georgia,serif;font-size:1.1rem;font-weight:700;color:#d4a843;}
+.api-banner{background:#1a1714;border-bottom:2px solid #d4a843;padding:.8rem 1rem;}
+.api-banner h3{color:#d4a843;font-size:13px;margin-bottom:5px;}
+.api-banner p{color:#7a6f60;font-size:11px;line-height:1.7;margin-bottom:6px;}
+.api-input{width:100%;background:#0e0c0a;border:1px solid #3a322a;border-radius:4px;color:#f0e8d8;font-family:monospace;font-size:12px;padding:7px 10px;outline:none;margin-bottom:6px;}
+.api-input:focus{border-color:#8a6a22;}
+.api-row{display:flex;gap:6px;}
+.api-save{background:#d4a843;color:#0e0c0a;border:none;border-radius:4px;font-family:monospace;font-weight:700;font-size:12px;padding:7px 14px;cursor:pointer;}
+.api-skip{background:none;border:1px solid #3a322a;color:#7a6f60;border-radius:4px;font-family:monospace;font-size:11px;padding:7px 10px;cursor:pointer;}
+.api-note{font-size:10px;color:#5a5040;margin-top:5px;line-height:1.6;}
+.api-status{display:none;background:rgba(212,168,67,.08);border-bottom:1px solid rgba(212,168,67,.15);padding:.4rem 1rem;font-size:11px;color:#8a6a22;text-align:center;cursor:pointer;}
+@keyframes fu{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:400px){
+  .cgrid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));}
+  .ba{width:26px;height:26px;font-size:.82rem;}
+  .beat{min-width:26px;}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Gitarren<span>Akkorde</span></h1>
+  <p>Griffbilder &middot; Schlagmuster &middot; Songstruktur</p>
+  <p style="margin-top:5px;font-size:10px;color:#3a322a">
+    50 eingebaute Songs
+    <span id="cacheInfo" style="display:none;color:#5b9bd4;margin-left:6px"></span>
+    <span id="clearBtn" style="color:#3a322a;margin-left:6px;cursor:pointer;font-size:9px" onclick="clearCache()" title="Gespeicherte Songs loeschen">&#128465;</span>
+  </p>
+</header>
+
+<div id="apiBanner" class="api-banner" style="display:none">
+  <h3>&#127381; Google Gemini API-Key einrichten (kostenlos!)</h3>
+  <p>Trage deinen <b>kostenlosen</b> Google Gemini API-Key ein.<br>
+  Key erstellen auf: <b>aistudio.google.com/apikey</b> &rarr; "Create API Key" &rarr; kopieren</p>
+  <input class="api-input" type="password" id="apiKeyInput" placeholder="AIza..." autocomplete="off" autocorrect="off" spellcheck="false"/>
+  <div class="api-row">
+    <button class="api-save" onclick="saveApiKey()">Speichern</button>
+    <button class="api-skip" onclick="closeApiBanner()">Ohne KI nutzen</button>
+  </div>
+  <div class="api-note">Komplett kostenlos: 1500 Anfragen pro Tag gratis. Kein Kreditkarte noetig.<br>
+  Der Key wird nur lokal auf deinem Gerat gespeichert.</div>
+</div>
+<div id="apiStatus" class="api-status" onclick="document.getElementById('apiBanner').style.display='block'">
+  <span id="apiStatusText"></span> &mdash; <span style="text-decoration:underline">Anpassen</span>
+</div>
+
+<div class="wrap">
+  <label class="lbl">Song oder Akkordfolge eingeben</label>
+  <div class="row">
+    <input type="text" id="qIn" placeholder="Wonderwall, G D Em C, Stairway to Heaven..." autocomplete="off" autocorrect="off" spellcheck="false"/>
+    <button class="btn" id="searchBtn">Suchen</button>
+  </div>
+</div>
+
+<div class="wrap" style="margin-top:.8rem">
+  <div class="inspire-hdr">
+    <span class="lbl" style="margin:0">Inspiration</span>
+    <button class="shuf" id="shufBtn">&#8634; Neu mischen</button>
+  </div>
+  <div class="igrid" id="igrid"></div>
+</div>
+
+<div class="main">
+  <div id="intro" class="intro">
+    <div class="icon">&#127928;</div>
+    <p>Song eingeben oder Karte auswaehlen<br>50 Songs offline &middot; mit Internet alle Songs</p>
+  </div>
+  <div id="loadDiv" class="loading" style="display:none">Wird geladen...</div>
+  <div id="errDiv" class="err" style="display:none"></div>
+  <div id="result" style="display:none"></div>
+</div>
+
+<script>
+var AMB="#d4a843",MU="#7a6f60",FR="#3a322a",UP="#5b9bd4";
+
+var CH={
+  "C":{f:[3,3,2,0,1,0],g:[3,4,2,0,1,0]},"Cm":{f:[3,4,5,5,4,3],g:[1,2,3,4,2,1],b:3},
+  "C#":{f:[4,4,6,6,6,4],g:[1,1,3,3,3,1],b:4},"C#m":{f:[4,4,6,6,5,4],g:[1,1,3,4,2,1],b:4},
+  "Cmaj7":{f:[3,3,2,0,0,0],g:[3,4,2,0,0,0]},"Cadd9":{f:[3,3,2,0,3,0],g:[3,4,2,0,1,0]},
+  "C7":{f:[0,3,2,3,1,0],g:[0,3,2,4,1,0]},
+  "D":{f:[-1,0,0,2,3,2],g:[0,0,0,1,3,2]},"Dm":{f:[-1,0,0,2,3,1],g:[0,0,0,1,3,2]},
+  "D7":{f:[-1,0,0,2,1,2],g:[0,0,0,2,1,3]},"Dmaj7":{f:[-1,0,0,2,2,2],g:[0,0,0,1,2,3]},
+  "Dsus2":{f:[-1,0,0,2,3,0],g:[0,0,0,1,2,0]},"Dsus4":{f:[-1,0,0,2,3,3],g:[0,0,0,1,2,3]},
+  "E":{f:[0,2,2,1,0,0],g:[0,2,3,1,0,0]},"Em":{f:[0,2,2,0,0,0],g:[0,2,3,0,0,0]},
+  "Em7":{f:[0,2,2,0,3,0],g:[0,2,3,0,4,0]},"E7":{f:[0,2,0,1,0,0],g:[0,2,0,1,0,0]},
+  "F":{f:[1,3,3,2,1,1],g:[1,3,4,2,1,1],b:1},"Fm":{f:[1,3,3,1,1,1],g:[1,3,4,1,1,1],b:1},
+  "Fmaj7":{f:[1,3,3,2,1,0],g:[1,3,4,2,1,0]},
+  "F#":{f:[2,4,4,3,2,2],g:[1,3,4,2,1,1],b:2},"F#m":{f:[2,4,4,2,2,2],g:[1,3,4,1,1,1],b:2},
+  "G":{f:[3,2,0,0,0,3],g:[2,1,0,0,0,3]},"Gm":{f:[3,5,5,3,3,3],g:[1,3,4,1,1,1],b:3},
+  "G7":{f:[3,2,0,0,0,1],g:[3,2,0,0,0,1]},"Gmaj7":{f:[3,2,0,0,0,2],g:[3,2,0,0,0,1]},
+  "Ab":{f:[4,6,6,5,4,4],g:[1,3,4,2,1,1],b:4},"Abm":{f:[4,6,6,4,4,4],g:[1,3,4,1,1,1],b:4},
+  "A":{f:[-1,0,2,2,2,0],g:[0,0,2,3,4,0]},"Am":{f:[-1,0,2,2,1,0],g:[0,0,2,3,1,0]},
+  "Am7":{f:[-1,0,2,0,1,0],g:[0,0,2,0,1,0]},"A7":{f:[-1,0,2,0,2,0],g:[0,0,2,0,3,0]},
+  "Amaj7":{f:[-1,0,2,1,2,0],g:[0,0,2,1,3,0]},"Asus2":{f:[-1,0,2,2,0,0],g:[0,0,2,3,0,0]},
+  "Asus4":{f:[-1,0,2,2,3,0],g:[0,0,1,2,3,0]},
+  "Bb":{f:[-1,1,3,3,3,1],g:[0,1,3,4,2,1],b:1},
+  "B":{f:[-1,2,4,4,4,2],g:[0,1,3,4,2,1],b:2},"Bm":{f:[-1,2,4,4,3,2],g:[0,1,3,4,2,1],b:2},
+  "B7":{f:[-1,2,1,2,0,2],g:[0,2,1,3,0,4]}
+};
+
+var SP={
+  "pop_44":{ts:"4/4",style:"Pop / Rock",bpm:100,p:[{d:"D",a:1,s:"1"},{d:"U",a:0,s:"&"},{d:"D",a:0,s:"2"},{d:"U",a:0,s:"&"},{d:"D",a:1,s:"3"},{d:"U",a:0,s:"&"},{d:"D",a:0,s:"4"},{d:"U",a:0,s:"&"}],gr:[[0,1],[2,3],[4,5],[6,7]]},
+  "folk_44":{ts:"4/4",style:"Folk",bpm:80,p:[{d:"D",a:1,s:"1"},{d:"-",a:0,s:"&"},{d:"D",a:0,s:"2"},{d:"U",a:0,s:"&"},{d:"D",a:1,s:"3"},{d:"U",a:0,s:"&"},{d:"-",a:0,s:"4"},{d:"U",a:0,s:"&"}],gr:[[0,1],[2,3],[4,5],[6,7]]},
+  "wonderwall":{ts:"4/4",style:"Alternative",bpm:87,p:[{d:"D",a:1,s:"1"},{d:"D",a:0,s:"&"},{d:"U",a:0,s:"2"},{d:"D",a:0,s:"&"},{d:"U",a:0,s:"3"},{d:"D",a:0,s:"&"},{d:"U",a:0,s:"4"},{d:"U",a:0,s:"&"}],gr:[[0,1],[2,3],[4,5],[6,7]]},
+  "waltz":{ts:"3/4",style:"Walzer",bpm:120,p:[{d:"D",a:1,s:"1"},{d:"U",a:0,s:"&"},{d:"D",a:0,s:"2"},{d:"U",a:0,s:"&"},{d:"D",a:0,s:"3"},{d:"U",a:0,s:"&"}],gr:[[0,1],[2,3],[4,5]]},
+  "blues":{ts:"4/4",style:"Blues",bpm:90,p:[{d:"D",a:1,s:"1"},{d:"D",a:0,s:"&"},{d:"D",a:0,s:"2"},{d:"D",a:0,s:"&"},{d:"D",a:1,s:"3"},{d:"D",a:0,s:"&"},{d:"D",a:0,s:"4"},{d:"D",a:0,s:"&"}],gr:[[0,1],[2,3],[4,5],[6,7]]},
+  "reggae":{ts:"4/4",style:"Reggae",bpm:80,p:[{d:"-",a:0,s:"1"},{d:"U",a:1,s:"&"},{d:"-",a:0,s:"2"},{d:"U",a:1,s:"&"},{d:"-",a:0,s:"3"},{d:"U",a:1,s:"&"},{d:"-",a:0,s:"4"},{d:"U",a:1,s:"&"}],gr:[[0,1],[2,3],[4,5],[6,7]]},
+  "ballad":{ts:"4/4",style:"Ballade",bpm:70,p:[{d:"D",a:1,s:"1"},{d:"-",a:0,s:"&"},{d:"D",a:0,s:"2"},{d:"-",a:0,s:"&"},{d:"D",a:1,s:"3"},{d:"-",a:0,s:"&"},{d:"D",a:0,s:"4"},{d:"U",a:0,s:"&"}],gr:[[0,1],[2,3],[4,5],[6,7]]}
+};
+
+var SONGS=[
+  {k:"wonderwall",t:"Wonderwall",ar:"Oasis",c:["Em7","G","D","A7"],sk:"wonderwall",cp:2,st:[{tp:"verse",lb:"Strophe",ch:["Em7","G","D","A7"],tm:"je 2 Takte"},{tp:"chorus",lb:"Chorus",ch:["G","D","A7","Em7"],tm:"je 2 Takte"}]},
+  {k:"hotel california",t:"Hotel California",ar:"Eagles",c:["Bm","F#","A","E","G","D","Em"],sk:"folk_44",cp:0,st:[{tp:"intro",lb:"Intro",ch:["Bm","F#","A","E"],tm:"je 2 Takte"},{tp:"verse",lb:"Strophe",ch:["Bm","F#","A","E","G","D","Em"],tm:"je 2 Takte"},{tp:"chorus",lb:"Chorus",ch:["G","D","F#","Bm"],tm:"je 2 Takte"}]},
+  {k:"knockin heavens door",t:"Knockin on Heavens Door",ar:"Bob Dylan",c:["G","D","Am","C"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["G","D","Am"],tm:"je 2 Takte"},{tp:"chorus",lb:"Chorus",ch:["G","D","C"],tm:"je 2 Takte"}]},
+  {k:"sweet home chicago",t:"Sweet Home Chicago",ar:"Blues Brothers",c:["E","A7","B7"],sk:"blues",cp:0,st:[{tp:"verse",lb:"A-Teil",ch:["E","A7","E"],tm:"je 2 Takte"},{tp:"chorus",lb:"Turnaround",ch:["B7","A7","E"],tm:"je 1 Takt"}]},
+  {k:"wish you were here",t:"Wish You Were Here",ar:"Pink Floyd",c:["Em","G","A","C","D","Am"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["C","D","Am","C"],tm:"je 2 Takte"},{tp:"chorus",lb:"Chorus",ch:["G","D","C"],tm:"je 2 Takte"}]},
+  {k:"let her go",t:"Let Her Go",ar:"Passenger",c:["G","D","Em","C"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["G","D","Em","C"],tm:"je 2 Takte"},{tp:"chorus",lb:"Chorus",ch:["C","G","D","Em"],tm:"je 2 Takte"}]},
+  {k:"perfect",t:"Perfect",ar:"Ed Sheeran",c:["G","Em","C","D"],sk:"waltz",cp:1,st:[{tp:"verse",lb:"Strophe",ch:["G","Em","C","D"],tm:"je 2 Takte"},{tp:"chorus",lb:"Chorus",ch:["Em","C","G","D"],tm:"je 2 Takte"}]},
+  {k:"zombie",t:"Zombie",ar:"The Cranberries",c:["Am","F","C","G"],sk:"pop_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["Am","F","C","G"],tm:"je 2 Takte"}]},
+  {k:"come as you are",t:"Come As You Are",ar:"Nirvana",c:["Em","D","A","C"],sk:"pop_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["Em","D"],tm:"je 2 Takte"},{tp:"chorus",lb:"Chorus",ch:["A","C"],tm:"je 2 Takte"}]},
+  {k:"someone like you",t:"Someone Like You",ar:"Adele",c:["A","E","F#m","D"],sk:"ballad",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["A","E","F#m","D"],tm:"je 2 Takte"}]},
+  {k:"hallelujah",t:"Hallelujah",ar:"Leonard Cohen",c:["C","Am","F","G","E7"],sk:"waltz",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["C","Am"],tm:"je 2 Takte"},{tp:"chorus",lb:"Chorus",ch:["F","Am","C","G","E7"],tm:"je 2 Takte"}]},
+  {k:"the scientist",t:"The Scientist",ar:"Coldplay",c:["Dm","Bb","F","C"],sk:"ballad",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["Dm","Bb","F","C"],tm:"je 2 Takte"}]},
+  {k:"fast car",t:"Fast Car",ar:"Tracy Chapman",c:["C","G","Am","F"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["C","G","Am","F"],tm:"je 2 Takte"}]},
+  {k:"blowin in the wind",t:"Blowin in the Wind",ar:"Bob Dylan",c:["D","G","A"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["D","G","D"],tm:"variabel"},{tp:"chorus",lb:"Chorus",ch:["G","A","D"],tm:"je 2 Takte"}]},
+  {k:"house of the rising sun",t:"House of the Rising Sun",ar:"The Animals",c:["Am","C","D","F","E"],sk:"waltz",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["Am","C","D","F"],tm:"je 1 Takt"}]},
+  {k:"blackbird",t:"Blackbird",ar:"The Beatles",c:["G","Am","C","D","Em","F"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["G","Am","G","C"],tm:"variabel"}]},
+  {k:"scarborough fair",t:"Scarborough Fair",ar:"Simon and Garfunkel",c:["Am","G","C","E"],sk:"waltz",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["Am","G","Am","C"],tm:"je 2 Takte"}]},
+  {k:"redemption song",t:"Redemption Song",ar:"Bob Marley",c:["G","Em","C","Am","D"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["G","Em","C","Am"],tm:"je 2 Takte"},{tp:"chorus",lb:"Chorus",ch:["C","D","G"],tm:"je 1 Takt"}]},
+  {k:"three little birds",t:"Three Little Birds",ar:"Bob Marley",c:["A","D","E"],sk:"reggae",cp:0,st:[{tp:"chorus",lb:"Chorus",ch:["D","A","E"],tm:"je 2 Takte"}]},
+  {k:"no woman no cry",t:"No Woman No Cry",ar:"Bob Marley",c:["C","G","Am","F"],sk:"reggae",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["C","G","Am","F"],tm:"je 2 Takte"}]},
+  {k:"jolene",t:"Jolene",ar:"Dolly Parton",c:["Am","C","G","E7"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["Am","C","G"],tm:"je 2 Takte"},{tp:"chorus",lb:"Chorus",ch:["Am","C","G","E7"],tm:"je 2 Takte"}]},
+  {k:"take me home country roads",t:"Take Me Home Country Roads",ar:"John Denver",c:["G","D","Em","C"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["G","D","Em","C"],tm:"je 2 Takte"}]},
+  {k:"ring of fire",t:"Ring of Fire",ar:"Johnny Cash",c:["G","C","D"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["G","C","G"],tm:"je 2 Takte"},{tp:"chorus",lb:"Chorus",ch:["D","C","G"],tm:"je 2 Takte"}]},
+  {k:"la bamba",t:"La Bamba",ar:"Ritchie Valens",c:["C","F","G"],sk:"pop_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["C","F","G"],tm:"je 2 Takte"}]},
+  {k:"time of your life",t:"Time of Your Life",ar:"Green Day",c:["G","Cadd9","D","Em"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["G","Cadd9","D"],tm:"je 2 Takte"},{tp:"chorus",lb:"Chorus",ch:["G","Em","Cadd9"],tm:"je 2 Takte"}]},
+  {k:"under the bridge",t:"Under the Bridge",ar:"Red Hot Chili Peppers",c:["D","F#","E","A","Em","G","C","Am"],sk:"pop_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["D","F#","E","A"],tm:"je 2 Takte"},{tp:"chorus",lb:"Chorus",ch:["Em","G","A","Am","C"],tm:"je 2 Takte"}]},
+  {k:"ho hey",t:"Ho Hey",ar:"The Lumineers",c:["F","C","Am","G"],sk:"folk_44",cp:3,st:[{tp:"verse",lb:"Strophe",ch:["F","C"],tm:"je 2 Takte"},{tp:"chorus",lb:"Chorus",ch:["Am","G","C"],tm:"je 2 Takte"}]},
+  {k:"riptide",t:"Riptide",ar:"Vance Joy",c:["Am","G","C"],sk:"pop_44",cp:1,st:[{tp:"verse",lb:"Strophe",ch:["Am","G","C"],tm:"je 2 Takte"}]},
+  {k:"budapest",t:"Budapest",ar:"George Ezra",c:["C","F","Am","G"],sk:"pop_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["C","F","C"],tm:"je 2 Takte"},{tp:"chorus",lb:"Chorus",ch:["Am","G","F","C"],tm:"je 2 Takte"}]},
+  {k:"counting stars",t:"Counting Stars",ar:"OneRepublic",c:["Am","C","G","F"],sk:"pop_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["Am","C","G","F"],tm:"je 2 Takte"}]},
+  {k:"let it be",t:"Let It Be",ar:"The Beatles",c:["C","G","Am","F"],sk:"ballad",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["C","G","Am","F"],tm:"je 2 Takte"}]},
+  {k:"hey jude",t:"Hey Jude",ar:"The Beatles",c:["F","C","Bb","C7"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["F","C","Bb","F"],tm:"je 2 Takte"}]},
+  {k:"here comes the sun",t:"Here Comes the Sun",ar:"The Beatles",c:["D","G","A","A7"],sk:"folk_44",cp:7,st:[{tp:"verse",lb:"Strophe",ch:["D","G","A7"],tm:"je 2 Takte"}]},
+  {k:"losing my religion",t:"Losing My Religion",ar:"REM",c:["Am","Em","Dm","G","F"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["Am","Em","Dm","G"],tm:"variabel"},{tp:"chorus",lb:"Chorus",ch:["F","Am","Dm","G"],tm:"je 2 Takte"}]},
+  {k:"mad world",t:"Mad World",ar:"Tears for Fears",c:["Em","G","D","A"],sk:"pop_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["Em","G","D","A"],tm:"je 2 Takte"}]},
+  {k:"wonderful tonight",t:"Wonderful Tonight",ar:"Eric Clapton",c:["G","D","C","Em"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["G","D","C","D"],tm:"je 2 Takte"},{tp:"chorus",lb:"Chorus",ch:["C","D","G","Em"],tm:"je 2 Takte"}]},
+  {k:"tears in heaven",t:"Tears in Heaven",ar:"Eric Clapton",c:["A","E","F#m","D","C#m","Bm","B7"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["A","E","F#m","D"],tm:"variabel"}]},
+  {k:"banana pancakes",t:"Banana Pancakes",ar:"Jack Johnson",c:["G","D7","C","Am"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["G","D7","C"],tm:"je 2 Takte"}]},
+  {k:"stay with me",t:"Stay With Me",ar:"Sam Smith",c:["Am","F","C","G"],sk:"ballad",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["Am","F","C"],tm:"je 2 Takte"},{tp:"chorus",lb:"Chorus",ch:["Am","F","C","G"],tm:"je 2 Takte"}]},
+  {k:"shallow",t:"Shallow",ar:"Lady Gaga",c:["Em","D","G","C","Am","F"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["Em","D","G"],tm:"je 2 Takte"},{tp:"chorus",lb:"Chorus",ch:["Am","D","G","C"],tm:"je 2 Takte"}]},
+  {k:"creep",t:"Creep",ar:"Radiohead",c:["G","B","C","Cm"],sk:"pop_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["G","B","C","Cm"],tm:"je 4 Takte"}]},
+  {k:"stairway to heaven",t:"Stairway to Heaven",ar:"Led Zeppelin",c:["Am","G","C","D","F","Em"],sk:"folk_44",cp:0,st:[{tp:"intro",lb:"Intro",ch:["Am","G","C"],tm:"Fingerpicking"},{tp:"verse",lb:"Strophe",ch:["Am","G","F","D"],tm:"je 2 Takte"}]},
+  {k:"sultans of swing",t:"Sultans of Swing",ar:"Dire Straits",c:["Dm","C","Bb","F","A"],sk:"pop_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["Dm","C","Bb","A"],tm:"je 2 Takte"}]},
+  {k:"yellow",t:"Yellow",ar:"Coldplay",c:["B","F#","Abm","E"],sk:"pop_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["B","F#","Abm","E"],tm:"je 2 Takte"}]},
+  {k:"thinking out loud",t:"Thinking Out Loud",ar:"Ed Sheeran",c:["D","G","A","Em"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["D","G","D","A"],tm:"je 2 Takte"}]},
+  {k:"more than words",t:"More Than Words",ar:"Extreme",c:["G","Cadd9","Am","C","D","Em"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["G","Cadd9","Am","C","D"],tm:"je 2 Takte"}]},
+  {k:"brown eyed girl",t:"Brown Eyed Girl",ar:"Van Morrison",c:["G","C","D","Em"],sk:"pop_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["G","C","G","D"],tm:"je 2 Takte"}]},
+  {k:"dust in the wind",t:"Dust in the Wind",ar:"Kansas",c:["C","Cmaj7","Cadd9","Am","Asus2","G","D"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["C","Cmaj7","Cadd9","Am"],tm:"Fingerpicking"}]},
+  {k:"fire and rain",t:"Fire and Rain",ar:"James Taylor",c:["G","C","A","D","Am","E7"],sk:"folk_44",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["G","C","G","A"],tm:"variabel"}]},
+  {k:"norwegian wood",t:"Norwegian Wood",ar:"The Beatles",c:["D","Dm","C","G"],sk:"waltz",cp:0,st:[{tp:"verse",lb:"Strophe",ch:["D","C","G"],tm:"je 2 Takte"}]}
+];
+
+var INSPIRE=[
+  {t:"Wonderwall",ar:"Oasis",g:"rock",k:"wonderwall"},{t:"Zombie",ar:"The Cranberries",g:"rock",k:"zombie"},
+  {t:"Come As You Are",ar:"Nirvana",g:"rock",k:"come as you are"},{t:"Creep",ar:"Radiohead",g:"rock",k:"creep"},
+  {t:"Hotel California",ar:"Eagles",g:"rock",k:"hotel california"},{t:"Sultans of Swing",ar:"Dire Straits",g:"rock",k:"sultans of swing"},
+  {t:"Perfect",ar:"Ed Sheeran",g:"pop",k:"perfect"},{t:"Let Her Go",ar:"Passenger",g:"pop",k:"let her go"},
+  {t:"Someone Like You",ar:"Adele",g:"pop",k:"someone like you"},{t:"Shallow",ar:"Lady Gaga",g:"pop",k:"shallow"},
+  {t:"Yellow",ar:"Coldplay",g:"pop",k:"yellow"},{t:"Fast Car",ar:"Tracy Chapman",g:"pop",k:"fast car"},
+  {t:"Budapest",ar:"George Ezra",g:"pop",k:"budapest"},{t:"Mad World",ar:"Tears for Fears",g:"pop",k:"mad world"},
+  {t:"Blackbird",ar:"The Beatles",g:"folk",k:"blackbird"},{t:"Blowin in the Wind",ar:"Bob Dylan",g:"folk",k:"blowin in the wind"},
+  {t:"House of the Rising Sun",ar:"The Animals",g:"folk",k:"house of the rising sun"},
+  {t:"Dust in the Wind",ar:"Kansas",g:"folk",k:"dust in the wind"},{t:"Banana Pancakes",ar:"Jack Johnson",g:"folk",k:"banana pancakes"},
+  {t:"Sweet Home Chicago",ar:"Blues Brothers",g:"blues",k:"sweet home chicago"},
+  {t:"Tears in Heaven",ar:"Eric Clapton",g:"blues",k:"tears in heaven"},
+  {t:"Stairway to Heaven",ar:"Led Zeppelin",g:"classic",k:"stairway to heaven"},
+  {t:"Hallelujah",ar:"Leonard Cohen",g:"classic",k:"hallelujah"},{t:"Let It Be",ar:"The Beatles",g:"classic",k:"let it be"},
+  {t:"Jolene",ar:"Dolly Parton",g:"country",k:"jolene"},{t:"Ring of Fire",ar:"Johnny Cash",g:"country",k:"ring of fire"},
+  {t:"Redemption Song",ar:"Bob Marley",g:"reggae",k:"redemption song"},
+  {t:"No Woman No Cry",ar:"Bob Marley",g:"reggae",k:"no woman no cry"},
+  {t:"Time of Your Life",ar:"Green Day",g:"punk",k:"time of your life"},
+  {t:"La Bamba",ar:"Ritchie Valens",g:"latin",k:"la bamba"}
+];
+
+var GCOL={rock:"#e08080",pop:"#d4a843",folk:"#8eca8c",blues:"#7ab8e0",classic:"#c494d8",country:"#d4a060",reggae:"#70c870",punk:"#e080b8",latin:"#e09050"};
+var SCOL={verse:"#d4a843",chorus:"#7ab8e0",bridge:"#8eca8c",intro:"#c494d8",outro:"#c494d8","pre-chorus":"#d4a060",solo:"#e08080"};
+
+// ── PLAYBACK ──────────────────────────────────────────
+var PT=null,CB=-1,CP=null,CBPM=80;
+// ── AUDIO ─────────────────────────────────────────────
+var AC = null;
+var SOUND_ON = true;
+
+function getAC(){
+  if(!AC){
+    try{ AC = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){}
+  }
+  // Resume if suspended (browser autoplay policy)
+  if(AC && AC.state === "suspended") AC.resume();
+  return AC;
+}
+
+function playStrum(direction, accent){
+  if(!SOUND_ON) return;
+  var ac = getAC();
+  if(!ac) return;
+
+  var now = ac.currentTime;
+
+  if(direction === "D"){
+    // Downstroke: gedaempfter Gitarren-Schlag ("Tschak")
+    // Mehrere Rausch-Bursts fuer Saitengeraeusch
+    var strings = accent ? 6 : 4;
+    for(var i=0; i<strings; i++){
+      (function(idx){
+        var buf = ac.createBuffer(1, ac.sampleRate*0.08, ac.sampleRate);
+        var data = buf.getChannelData(0);
+        for(var j=0; j<data.length; j++){
+          data[j] = (Math.random()*2-1) * Math.exp(-j/(ac.sampleRate*0.015));
+        }
+        var src = ac.createBufferSource();
+        src.buffer = buf;
+
+        // Bandpass fuer jede Saite (verschiedene Frequenzen)
+        var bp = ac.createBiquadFilter();
+        bp.type = "bandpass";
+        bp.frequency.value = 80 + idx*45; // E bis e
+        bp.Q.value = 0.8;
+
+        var gain = ac.createGain();
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(accent?0.28:0.18, now + 0.002 + idx*0.006);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06 + idx*0.01);
+
+        src.connect(bp);
+        bp.connect(gain);
+        gain.connect(ac.destination);
+        src.start(now + idx*0.006);
+      })(i);
+    }
+
+    // Koerper-Thump (tiefer Schlag)
+    var osc = ac.createOscillator();
+    var tGain = ac.createGain();
+    osc.frequency.setValueAtTime(accent?90:70, now);
+    osc.frequency.exponentialRampToValueAtTime(40, now+0.04);
+    tGain.gain.setValueAtTime(accent?0.25:0.15, now);
+    tGain.gain.exponentialRampToValueAtTime(0.001, now+0.07);
+    osc.connect(tGain);
+    tGain.connect(ac.destination);
+    osc.start(now);
+    osc.stop(now+0.08);
+
+  } else if(direction === "U"){
+    // Upstroke: helles "Tschik" (nur hohe Saiten)
+    for(var i=0; i<3; i++){
+      (function(idx){
+        var buf = ac.createBuffer(1, ac.sampleRate*0.05, ac.sampleRate);
+        var data = buf.getChannelData(0);
+        for(var j=0; j<data.length; j++){
+          data[j] = (Math.random()*2-1) * Math.exp(-j/(ac.sampleRate*0.008));
+        }
+        var src = ac.createBufferSource();
+        src.buffer = buf;
+
+        var bp = ac.createBiquadFilter();
+        bp.type = "bandpass";
+        bp.frequency.value = 280 + idx*120;
+        bp.Q.value = 1.2;
+
+        var gain = ac.createGain();
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(0.12, now + 0.001 + idx*0.004);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035 + idx*0.008);
+
+        src.connect(bp);
+        bp.connect(gain);
+        gain.connect(ac.destination);
+        src.start(now + idx*0.004);
+      })(i);
+    }
+  }
+  // "-" (Pause/Mute) = kein Ton
+}
+
+function toggleSound(){
+  SOUND_ON = !SOUND_ON;
+  var btn = document.getElementById("soundBtn");
+  if(btn) btn.textContent = SOUND_ON ? "🔊" : "🔇";
+  if(SOUND_ON) getAC(); // AudioContext aufwecken
+}
+
+function togglePlay(){if(PT)stopPlay();else startPlay();}
+function startPlay(){
+  if(!CP)return;
+  // AudioContext beim ersten Play-Klick starten (Browser-Policy)
+  getAC();
+  document.getElementById("pbtn").textContent="Stop";
+  CB=-1;
+  PT=setInterval(function(){
+    var beats=document.querySelectorAll(".beat-ba");
+    if(!beats.length)return;
+    if(CB>=0&&beats[CB])beats[CB].classList.remove("active");
+    CB=(CB+1)%CP.p.length;
+    if(beats[CB])beats[CB].classList.add("active");
+    // Ton abspielen
+    var beat = CP.p[CB];
+    playStrum(beat.d, beat.a);
+  },(60000/CBPM)/2);
+}
+function stopPlay(){
+  clearInterval(PT);PT=null;
+  var pb=document.getElementById("pbtn");
+  if(pb)pb.textContent="Play";
+  document.querySelectorAll(".beat-ba.active").forEach(function(e){e.classList.remove("active");});
+  CB=-1;
+}
+function setBpm(v){
+  CBPM=parseInt(v);
+  var el=document.getElementById("bpmval");
+  if(el)el.textContent=v+" BPM";
+  if(PT){stopPlay();startPlay();}
+}
+
+// ── CHORD SVG ─────────────────────────────────────────
+function drawChord(name){
+  var d=CH[name];if(!d)return"";
+  var f=d.f,g=d.g||[],b=d.b||0;
+  var W=115,H=122,L=19,T=26,SG=16,FG=17,S=6,FS=5;
+  var vf=f.filter(function(x){return x>0;});
+  var mn=vf.length?Math.min.apply(null,vf):1,mx=vf.length?Math.max.apply(null,vf):1;
+  var sf=mx>FS?mn:1;
+  var s='<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" style="display:block;overflow:visible">';
+  if(sf===1)s+='<rect x="'+L+'" y="'+(T-4)+'" width="'+(S-1)*SG+'" height="4" rx="1" fill="#c8a84b"/>';
+  else{s+='<text x="'+(L-5)+'" y="'+(T+4)+'" text-anchor="end" font-size="8" fill="#7a6f60" font-family="monospace">'+sf+'fr</text>';
+    s+='<line x1="'+L+'" y1="'+(T-3)+'" x2="'+(L+(S-1)*SG)+'" y2="'+(T-3)+'" stroke="#3a322a" stroke-width="1.5"/>';}
+  for(var i=0;i<=FS;i++)s+='<line x1="'+L+'" y1="'+(T+i*FG)+'" x2="'+(L+(S-1)*SG)+'" y2="'+(T+i*FG)+'" stroke="#3a322a" stroke-width="1"/>';
+  for(var i=0;i<S;i++)s+='<line x1="'+(L+i*SG)+'" y1="'+T+'" x2="'+(L+i*SG)+'" y2="'+(T+FS*FG)+'" stroke="#c8a84b" stroke-width="1.1" opacity=".7"/>';
+  if(b&&b>=sf){var by=T+(b-sf+0.5)*FG;s+='<rect x="'+L+'" y="'+(by-6)+'" width="'+(S-1)*SG+'" height="12" rx="6" fill="#d4a843" opacity=".9"/>';}
+  for(var i=0;i<S;i++){
+    var fr=f[i],x=L+i*SG;
+    if(fr===-1)s+='<text x="'+x+'" y="'+(T-7)+'" text-anchor="middle" font-size="10" fill="#c0392b" font-family="monospace">x</text>';
+    else if(fr===0)s+='<circle cx="'+x+'" cy="'+(T-10)+'" r="4" fill="none" stroke="#c8a84b" stroke-width="1.5"/>';
+    else{var r=fr-sf;if(r>=0&&r<FS){if(b&&fr===b)continue;
+      var dy=T+(r+0.5)*FG;
+      s+='<circle cx="'+x+'" cy="'+dy+'" r="7" fill="#d4a843"/>';
+      if(g[i])s+='<text x="'+x+'" y="'+(dy+3)+'" text-anchor="middle" font-size="8" font-weight="600" fill="#0e0c0a" font-family="monospace">'+g[i]+'</text>';}}
+  }
+  return s+'</svg>';
+}
+
+// ── RENDER ────────────────────────────────────────────
+function show(song){
+  stopPlay();
+  CP=SP[song.sk]||SP["pop_44"];CBPM=CP.bpm;
+  document.getElementById("intro").style.display="none";
+  document.getElementById("loadDiv").style.display="none";
+  document.getElementById("errDiv").style.display="none";
+  var ytQ=encodeURIComponent(song.t+" "+(song.ar||"")+" guitar");
+  var h='<div class="song-hdr"><div><span class="song-title">'+song.t+'</span>';
+  if(song.ar)h+='<span class="song-ar">- '+song.ar+'</span>';
+  h+='</div><a class="yt-link" href="https://www.youtube.com/results?search_query='+ytQ+'" target="_blank">';
+  h+='<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>YouTube</a></div>';
+  if(song.cp&&song.cp>0)h+='<div class="capo">Kapodaster Bund <strong>'+song.cp+'</strong></div>';
+  h+='<div class="panel"><div class="ptop" style="background:linear-gradient(90deg,'+AMB+','+UP+');opacity:.6"></div>';
+  h+='<div class="plbl">Schlagmuster</div><div class="pinfo">'+CP.ts+' &middot; '+CP.style+'</div>';
+  h+='<div class="beat-grid">';
+  for(var gi=0;gi<CP.gr.length;gi++){
+    h+='<div class="bg"><div class="bgn">'+(gi+1)+'</div>';
+    for(var bi=0;bi<CP.gr[gi].length;bi++){
+      var idx=CP.gr[gi][bi];var b=CP.p[idx];
+      var cls=b.d==="D"?(b.a?"bDA":"bD"):b.d==="U"?"bU":"bM";
+      var sym=b.d==="D"?"\u2193":b.d==="U"?"\u2191":"\u00b7";
+      h+='<div class="beat"><div class="ba '+cls+' beat-ba">'+sym+'</div><div class="bl">'+b.s+'</div></div>';
+    }
+    h+='</div>';
+  }
+  h+='</div><div class="sctrl">';
+  h+='<button class="pbtn" id="pbtn" onclick="togglePlay()">Play</button>';
+  h+='<button onclick="toggleSound()" id="soundBtn" style="background:none;border:1px solid #3a322a;border-radius:20px;font-size:16px;padding:4px 10px;cursor:pointer;touch-action:manipulation;">&#128266;</button>';
+  h+='<span style="font-size:10px;color:'+MU+';text-transform:uppercase;letter-spacing:.1em">Tempo</span>';
+  h+='<input type="range" min="40" max="200" value="'+CBPM+'" oninput="setBpm(this.value)">';
+  h+='<span class="bpmlbl" id="bpmval">'+CBPM+' BPM</span>';
+  h+='<div class="legend"><div class="li"><div class="ld" style="background:rgba(212,168,67,.4);border:1px solid '+AMB+'"></div>Runter</div>';
+  h+='<div class="li"><div class="ld" style="background:rgba(91,155,212,.3);border:1px solid '+UP+'"></div>Hoch</div></div></div></div>';
+  if(song.st&&song.st.length){
+    h+='<div class="panel"><div class="ptop" style="background:linear-gradient(90deg,#5b9bd4,#7cc47a);opacity:.5"></div>';
+    h+='<div class="plbl">Songstruktur &amp; Akkordwechsel</div><div class="sec-list">';
+    for(var si=0;si<song.st.length;si++){
+      var sec=song.st[si];var col=SCOL[sec.tp]||AMB;
+      h+='<div class="sec"><div class="stype" style="background:'+col+'22;color:'+col+';border:1px solid '+col+'44">'+sec.lb+'</div><div class="schords">';
+      for(var ci=0;ci<(sec.ch||[]).length;ci++)h+='<span class="cpill">'+sec.ch[ci]+'</span>';
+      if(sec.tm)h+='<span class="stm">('+sec.tm+')</span>';
+      h+='</div></div>';
+    }
+    h+='</div></div>';
+  }
+  h+='<div class="lbl" style="margin-bottom:9px">Akkordgriffe</div><div class="cgrid">';
+  var seen={};
+  for(var ci=0;ci<song.c.length;ci++){
+    var nm=song.c[ci];
+    if(seen[nm]||!CH[nm])continue;seen[nm]=true;
+    h+='<div class="ccard" style="animation-delay:'+(ci*0.05)+'s"><div class="cname">'+nm+'</div>'+drawChord(nm)+'</div>';
+  }
+  h+='</div>';
+  var rd=document.getElementById("result");
+  rd.innerHTML=h;rd.style.display="block";
+  setTimeout(function(){rd.scrollIntoView({behavior:"smooth",block:"start"});},100);
+}
+
+// ── SEARCH ────────────────────────────────────────────
+function findLocal(query){
+  var q=query.toLowerCase().replace(/[^a-z0-9 ]/g,"").trim();
+  var best=null,top=0;
+  for(var i=0;i<SONGS.length;i++){
+    var s=SONGS[i];
+    var ti=s.t.toLowerCase().replace(/[^a-z0-9 ]/g,"");
+    var ar=s.ar.toLowerCase().replace(/[^a-z0-9 ]/g,"");
+    var sc=0;
+    if(s.k===q||ti===q)sc=100;
+    else if(s.k.indexOf(q)>=0||q.indexOf(s.k)>=0)sc=80;
+    else if(ti.indexOf(q)>=0||q.indexOf(ti)>=0)sc=70;
+    else if(ar.indexOf(q)>=0)sc=40;
+    else{
+      var qw=q.split(" ").filter(function(w){return w.length>2;});
+      var tw=ti.split(" ");var hits=0;
+      for(var a=0;a<qw.length;a++)for(var bb=0;bb<tw.length;bb++)if(tw[bb].indexOf(qw[a])>=0||qw[a].indexOf(tw[bb])>=0)hits++;
+      sc=hits*20;
+    }
+    if(sc>top){top=sc;best=s;}
+  }
+  return top>=30?best:null;
+}
+
+function parseChords(text){
+  var re=/\b([A-G][b#]?(?:maj7|maj|m7|m|7|sus2|sus4|add9|dim|aug)?)\b/g;
+  var out=[],seen={},m;
+  while((m=re.exec(text))!==null)if(!seen[m[1]]&&CH[m[1]]){seen[m[1]]=true;out.push(m[1]);}
+  return out;
+}
+
+// ── LOKALE DATENBANK (waechst automatisch) ────────────
+var CACHE_KEY = "gitarren_songs_v1";
+var API_KEY_KEY = "gak_apikey";
+
+function initApiStatus(){
+  var key=localStorage.getItem(API_KEY_KEY)||"";
+  var banner=document.getElementById("apiBanner");
+  var status=document.getElementById("apiStatus");
+  var statusText=document.getElementById("apiStatusText");
+  if(key){
+    if(status)status.style.display="block";
+    if(statusText)statusText.textContent="&#127381; Gemini aktiv - kostenlose KI-Suche verfuegbar";
+    if(document.getElementById("apiKeyInput"))document.getElementById("apiKeyInput").value=key;
+  } else {
+    if(banner)banner.style.display="block";
+  }
+}
+
+function saveApiKey(){
+  var val=(document.getElementById("apiKeyInput").value||"").trim();
+  if(!val||val.length<10){alert("Bitte einen gueltigen Gemini API-Key eingeben");return;}
+  localStorage.setItem(API_KEY_KEY,val);
+  document.getElementById("apiBanner").style.display="none";
+  var status=document.getElementById("apiStatus");
+  var statusText=document.getElementById("apiStatusText");
+  if(status)status.style.display="block";
+  if(statusText)statusText.textContent="&#127381; Gemini aktiv - kostenlose KI-Suche verfuegbar";
+  alert("Gespeichert! KI-Suche ist jetzt aktiv.");
+}
+
+function closeApiBanner(){
+  document.getElementById("apiBanner").style.display="none";
+  var status=document.getElementById("apiStatus");
+  var statusText=document.getElementById("apiStatusText");
+  if(status)status.style.display="block";
+  if(statusText)statusText.textContent="Kein Gemini-Key - nur 50 Offline-Songs verfuegbar";
+}
+
+function cacheLoad(){
+  try{ return JSON.parse(localStorage.getItem(CACHE_KEY)||"[]"); }
+  catch(e){ return []; }
+}
+
+function cacheSave(song){
+  try{
+    var db=cacheLoad();
+    // Duplikat vermeiden
+    var key=song.t.toLowerCase().replace(/[^a-z0-9]/g,"");
+    for(var i=0;i<db.length;i++){
+      if(db[i].t.toLowerCase().replace(/[^a-z0-9]/g,"")==key) return;
+    }
+    db.push(song);
+    localStorage.setItem(CACHE_KEY, JSON.stringify(db));
+    updateCacheInfo();
+  }catch(e){}
+}
+
+function findCached(query){
+  var q=query.toLowerCase().replace(/[^a-z0-9 ]/g,"").trim();
+  var db=cacheLoad();
+  var best=null,top=0;
+  for(var i=0;i<db.length;i++){
+    var s=db[i];
+    var ti=s.t.toLowerCase().replace(/[^a-z0-9 ]/g,"");
+    var ar=(s.ar||"").toLowerCase().replace(/[^a-z0-9 ]/g,"");
+    var sc=0;
+    if(ti===q) sc=100;
+    else if(ti.indexOf(q)>=0||q.indexOf(ti)>=0) sc=80;
+    else if(ar.indexOf(q)>=0) sc=40;
+    else{
+      var qw=q.split(" ").filter(function(w){return w.length>2;});
+      var tw=ti.split(" ");var hits=0;
+      for(var a=0;a<qw.length;a++)for(var bb=0;bb<tw.length;bb++)if(tw[bb].indexOf(qw[a])>=0||qw[a].indexOf(tw[bb])>=0)hits++;
+      sc=hits*20;
+    }
+    if(sc>top){top=sc;best=s;}
+  }
+  return top>=30?best:null;
+}
+
+function updateCacheInfo(){
+  var db=cacheLoad();
+  var el=document.getElementById("cacheInfo");
+  if(el&&db.length>0){
+    el.textContent="+ "+db.length+" gespeicherte Song"+(db.length===1?"":"s");
+    el.style.display="inline";
+  }
+}
+
+function clearCache(){
+  if(confirm("Alle "+cacheLoad().length+" gespeicherten Songs loeschen?")){
+    localStorage.removeItem(CACHE_KEY);
+    updateCacheInfo();
+    document.getElementById("cacheInfo").style.display="none";
+  }
+}
+
+function doSearch(query){
+  query=(query||"").trim();if(!query)return;
+  document.getElementById("errDiv").style.display="none";
+  document.getElementById("result").style.display="none";
+  document.getElementById("intro").style.display="none";
+
+  // 1. Eingebaute Offline-Datenbank
+  var local=findLocal(query);
+  if(local){show(local);return;}
+
+  // 2. Gespeicherte Songs (automatisch gewachsene Datenbank)
+  var cached=findCached(query);
+  if(cached){show(cached);return;}
+
+  // 3. Direkte Akkord-Eingabe
+  var direct=parseChords(query);
+  if(direct.length>=2){show({t:query,ar:"",c:direct,sk:"pop_44",cp:0,st:[]});return;}
+
+  // 4. KI-Suche online
+  document.getElementById("loadDiv").textContent="KI sucht Akkorde online...";
+  document.getElementById("loadDiv").style.display="block";
+
+  var prompt='Guitar song: "'+query+'"\nReturn ONLY valid JSON, no markdown:\n{"t":"Title","ar":"Artist","c":["G","Em","C","D"],"sk":"folk_44","cp":0,"st":[{"tp":"verse","lb":"Strophe","ch":["G","Em"],"tm":"je 2 Takte"},{"tp":"chorus","lb":"Chorus","ch":["C","D"],"tm":"je 2 Takte"}]}\nsk: pop_44,folk_44,wonderwall,waltz,blues,reggae,ballad. tp: intro,verse,pre-chorus,chorus,bridge,solo,outro. cp=capo fret.';
+
+  var apiKey=localStorage.getItem("gak_apikey")||"";
+  if(!apiKey){
+    document.getElementById("ldiv").style.display="none";
+    document.getElementById("apiBanner").style.display="block";
+    document.getElementById("errDiv").innerHTML="Kein Gemini API-Key. Bitte oben einrichten (kostenlos!)";
+    document.getElementById("errDiv").style.display="block";
+    document.getElementById("intro").style.display="block";
+    return;
+  }
+  var geminiUrl="https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="+apiKey;
+  fetch(geminiUrl,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.1,maxOutputTokens:600}})
+  })
+  .then(function(r){return r.json();})
+  .then(function(data){
+    document.getElementById("ldiv").style.display="none";
+    var txt="";
+    if(data.candidates&&data.candidates[0]&&data.candidates[0].content&&data.candidates[0].content.parts)
+      data.candidates[0].content.parts.forEach(function(p){if(p.text)txt+=p.text;});
+    txt=txt.replace(/```json|```/g,"").trim();
+    var r=JSON.parse(txt);
+    var song={t:r.t||query,ar:r.ar||"",c:r.c||[],sk:r.sk||"pop_44",cp:r.cp||0,st:r.st||[]};
+    cacheSave(song);
+    show(song);
+  })
+  .catch(function(e){
+    document.getElementById("ldiv").style.display="none";
+    document.getElementById("errDiv").innerHTML="Song nicht gefunden. Tipp: Akkorde direkt eingeben z.B. <b>G D Em C</b>";
+    document.getElementById("errDiv").style.display="block";
+    document.getElementById("intro").style.display="block";
+  });
+}
+
+// ── INSPIRATION ───────────────────────────────────────
+function doShuffle(){
+  // Gespeicherte Songs mit einbeziehen
+  var cached=cacheLoad();
+  var allInspire=INSPIRE.slice();
+  cached.forEach(function(s){
+    allInspire.push({t:s.t,ar:s.ar||"",g:"saved",k:null,_song:s});
+  });
+
+  var sh=allInspire.sort(function(){return Math.random()-.5;});
+  var picked=[],used={};
+  // Mindestens 1 gespeicherter Song wenn vorhanden
+  sh.forEach(function(s){if(s.g==="saved"&&picked.length<1)picked.push(s);});
+  sh.forEach(function(s){if(!used[s.g]&&picked.length<6){picked.push(s);used[s.g]=true;}});
+  sh.forEach(function(s){if(picked.length<6&&picked.indexOf(s)<0)picked.push(s);});
+
+  var grid=document.getElementById("igrid");grid.innerHTML="";
+  picked.slice(0,6).forEach(function(s){
+    var col=s.g==="saved"?"#a0c0ff":GCOL[s.g]||"#aaa";
+    var glabel=s.g==="saved"?"gespeichert":s.g;
+    var d=document.createElement("div");d.className="icard";
+    d.innerHTML='<div class="ic-t">'+s.t+'</div><div class="ic-m"><span class="ic-a">'+(s.ar||"")+'</span><span class="gbadge" style="background:'+col+'25;color:'+col+';border:1px solid '+col+'50">'+glabel+'</span></div>';
+    (function(song){
+      d.onclick=function(){
+        document.getElementById("qIn").value=song.t;
+        if(song._song){show(song._song);}
+        else{doSearch(song.t+" "+(song.ar||""));}
+      };
+    })(s);
+    grid.appendChild(d);
+  });
+}
+
+// ── INIT ──────────────────────────────────────────────
+document.getElementById("searchBtn").onclick=function(){doSearch(document.getElementById("qIn").value);};
+document.getElementById("shufBtn").onclick=doShuffle;
+document.getElementById("qIn").addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();doSearch(this.value);}});
+updateCacheInfo();
+initApiStatus();
+doShuffle();
+</script>
+</body>
+</html>
